@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function App() {
+  const [results, setResults] = useState([])
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+  const fetchUsers = async () => {
+    const response = await axios.get('https://api.flockshop.co/api/test/')
+    if (response.status === 200) {
+      // console.log(response.data)
+      setResults([...response.data])
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className='App'>
+      <header className='App-header'>
+        <h2>API TESTING</h2>
+        {results.map(v => (
+          <h3>{v.username}</h3>
+        ))}
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
